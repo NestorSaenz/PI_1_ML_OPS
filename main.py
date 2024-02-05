@@ -10,7 +10,7 @@ app = FastAPI()
 def my_function():
     return 'PROYECTO INDIVIDUAL Nº1 Machine Learning Operations (MLOps)'
 
-@app.get('/Desarrollador')
+@app.get("/developer/{desarrollador}")
 def desarrollador(desarrollador:str):
     df1 = pd.read_parquet('Dataset/steam_games.parquet')
     df_desarrollador = df1[df1['developer'] == desarrollador.capitalize()]
@@ -21,7 +21,7 @@ def desarrollador(desarrollador:str):
     resultado_dict = df_resultado.to_dict(orient='records')
     return resultado_dict
 
-@app.get('/User_id')
+@app.get('/User_id/{user_id}')
 def userdata(user_id: str):
     df2 = pd.read_parquet('Dataset/endpoint_2.parquet')
     df_user_id = df2[df2['user_id'] == user_id]
@@ -31,7 +31,7 @@ def userdata(user_id: str):
     
     return {'usuario':user_id, 'Dinero gastado':dinero_gastado, 'porcentaje de recomendación':porcentaje_recomen, 'Cantidad de items': cant_items}
 
-@app.get('/Genero')
+@app.get('/Genero/{Genero}')
 def UserForGenre(genero: str):
     df3 = pd.read_parquet('Dataset/endpoint_3.parquet')
     data = df3[df3['genres'] == genero.capitalize()]
@@ -42,7 +42,7 @@ def UserForGenre(genero: str):
   }
     return resultado
 
-@app.get('/Año')
+@app.get('/Año/{Año}')
 def best_developer_year( año : int ): 
     df4 = pd.read_parquet('Dataset/endpoint_4.parquet')
     data = df4[df4['release_date']== año]
@@ -52,7 +52,7 @@ def best_developer_year( año : int ):
     resultado_dict = {'Primer puesto': lista[0], 'Segundo puesto': lista[1], 'Tercer puesto': lista[2]}
     return resultado_dict   
 
-@app.get('/Desarrolladora')
+@app.get('/Desarrolladora/{Desarrolladora}')
 def developer_reviews_analysis(desarrolladora: str ):
     df5 = pd.read_parquet('Dataset/endpoint_5.parquet') 
     data = df5[df5['developer'] == desarrolladora]
