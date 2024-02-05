@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 app = FastAPI()
-df = pd.read_parquet('Dataset/data_final.parquet')
+
 df1 = pd.read_parquet('Dataset/steam_games.parquet')
 df2 = pd.read_parquet('Dataset/endpoint_2.parquet')
 df3 = pd.read_parquet('Dataset/endpoint_3.parquet')
