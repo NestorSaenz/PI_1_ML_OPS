@@ -31,7 +31,7 @@ def userdata(user_id: str):
     
     return {'usuario':user_id, 'Dinero gastado':dinero_gastado, 'porcentaje de recomendación':porcentaje_recomen, 'Cantidad de items': cant_items}
 
-@app.get('/Genero/{Genero}')
+@app.get('/Genero/{genero}')
 def UserForGenre(genero: str):
     df3 = pd.read_parquet('Dataset/endpoint_3.parquet')
     data = df3[df3['genres'] == genero.capitalize()]
@@ -42,7 +42,7 @@ def UserForGenre(genero: str):
   }
     return resultado
 
-@app.get('/Año/{Año}')
+@app.get('/Año/{año}')
 def best_developer_year( año : int ): 
     df4 = pd.read_parquet('Dataset/endpoint_4.parquet')
     data = df4[df4['release_date']== año]
@@ -52,7 +52,7 @@ def best_developer_year( año : int ):
     resultado_dict = {'Primer puesto': lista[0], 'Segundo puesto': lista[1], 'Tercer puesto': lista[2]}
     return resultado_dict   
 
-@app.get('/Desarrolladora/{Desarrolladora}')
+@app.get('/Desarrolladora/{desarrolladora}')
 def developer_reviews_analysis(desarrolladora: str ):
     df5 = pd.read_parquet('Dataset/endpoint_5.parquet') 
     data = df5[df5['developer'] == desarrolladora]
