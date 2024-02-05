@@ -5,11 +5,6 @@ import numpy as np
 
 app = FastAPI()
 
-df1 = pd.read_parquet('Dataset/steam_games.parquet')
-df2 = pd.read_parquet('Dataset/endpoint_2.parquet')
-df3 = pd.read_parquet('Dataset/endpoint_3.parquet')
-df4 = pd.read_parquet('Dataset/endpoint_4.parquet')
-df5 = pd.read_parquet('Dataset/endpoint_5.parquet')
 
 @app.get('/')
 def my_function():
@@ -17,6 +12,7 @@ def my_function():
 
 @app.get('/Desarrollador')
 def desarrollador(desarrollador:str):
+    df1 = pd.read_parquet('Dataset/steam_games.parquet')
     df_desarrollador = df1[df1['developer'] == desarrollador.capitalize()]
     df_resultado = pd.DataFrame()
     df_resultado['Años'] = df_desarrollador['release_date'].unique()
@@ -27,6 +23,7 @@ def desarrollador(desarrollador:str):
 
 @app.get('/User_id')
 def userdata(user_id: str):
+    df2 = pd.read_parquet('Dataset/endpoint_2.parquet')
     df_user_id = df2[df2['user_id'] == user_id]
     dinero_gastado= (df_user_id['price'].sum())
     porcentaje_recomen = len(df_user_id['recommend']=='True')/len(df_user_id)*100
@@ -36,6 +33,7 @@ def userdata(user_id: str):
 
 @app.get('/Genero')
 def UserForGenre(genero: str):
+    df3 = pd.read_parquet('Dataset/endpoint_3.parquet')
     data = df3[df3['genres'] == genero.capitalize()]
     usuario_horas = data.groupby('user_id')['playtime_forever'].sum().idxmax(0)
     lista_horas = data.groupby('release_date')['playtime_forever'].sum().reset_index() 
@@ -46,6 +44,7 @@ def UserForGenre(genero: str):
 
 @app.get('/Año')
 def best_developer_year( año : int ): 
+    df4 = pd.read_parquet('Dataset/endpoint_4.parquet')
     data = df4[df4['release_date']== año]
     data = data[(data['recommend'] == True) & (data['sentiment_analysis'] == 2)].sort_values(by= 'developer',ascending= False)
     df_dvelopers = data.groupby('developer')['sentiment_analysis'].sum().index[:3]
@@ -54,7 +53,8 @@ def best_developer_year( año : int ):
     return resultado_dict   
 
 @app.get('/Desarrolladora')
-def developer_reviews_analysis(desarrolladora: str ): 
+def developer_reviews_analysis(desarrolladora: str ):
+    df5 = pd.read_parquet('Dataset/endpoint_5.parquet') 
     data = df5[df5['developer'] == desarrolladora]
     negativos = data[data['sentiment_analysis'] == 2].count().to_list()
     positivos = data[data['sentiment_analysis'] == 0].count().to_list()
