@@ -42,14 +42,17 @@ def UserForGenre(genero: str):
   }
     return resultado
 
-@app.get('/Año/{año}')
-def best_developer_year( año : int ): 
+@app.get('/Año')
+def best_developer_year(año: int ): 
+    
     df4 = pd.read_parquet('Dataset/endpoint_4.parquet')
     data = df4[df4['release_date']== año]
     data = data[(data['recommend'] == True) & (data['sentiment_analysis'] == 2)].sort_values(by= 'developer',ascending= False)
     df_dvelopers = data.groupby('developer')['sentiment_analysis'].sum().index[:3]
     lista = df_dvelopers.to_list()
     resultado_dict = {'Primer puesto': lista[0], 'Segundo puesto': lista[1], 'Tercer puesto': lista[2]}
+   
+    
     return resultado_dict   
 
 @app.get('/Desarrolladora/{desarrolladora}')
