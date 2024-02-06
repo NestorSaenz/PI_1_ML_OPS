@@ -66,7 +66,7 @@ def developer_reviews_analysis(desarrolladora: str ):
     """
     
 @app.get('/Desarrolladora/{desarrolladora}')
-def developer_reviews_analysis(desarrolladora: str ):
+async def developer_reviews_analysis(desarrolladora: str ):
     df = pd.read_parquet('Dataset/endpoint_4_5.parquet')
     df_desarrolladora = df[df['developer'] == desarrolladora]
     positivos = (df_desarrolladora['sentiment_analysis'] == 2).count()
