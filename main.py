@@ -23,7 +23,7 @@ async def desarrollador(desarrollador:str):
 @app.get('/User_id/{user_id}')
 async def userdata(user_id: str):
     df2 = pd.read_parquet('Dataset/endpoint_2_copia.parquet')
-    df_user_id = df2[df2['user_id'] == user_id.capitalize()]
+    df_user_id = df2[df2['user_id'] == user_id]
     dinero_gastado= (df_user_id['price'].sum())
     porcentaje_recomen = len(df_user_id['recommend']=='True')/len(df_user_id)*100
     cant_items = df_user_id.iloc[0,3].astype(float)
