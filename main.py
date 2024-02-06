@@ -4,13 +4,13 @@ import pandas as pd
 
 app = FastAPI()
 
-""""
+
 @app.get('/')
-def my_function():
+async def my_function():
     return 'PROYECTO INDIVIDUAL Nº1 Machine Learning Operations (MLOps)'
 
 @app.get("/developer/{desarrollador}")
-def desarrollador(desarrollador:str):
+async def desarrollador(desarrollador:str):
     df1 = pd.read_parquet('Dataset/steam_games.parquet')
     df_desarrollador = df1[df1['developer'] == desarrollador.capitalize()]
     df_resultado = pd.DataFrame()
@@ -21,7 +21,7 @@ def desarrollador(desarrollador:str):
     return resultado_dict
 
 @app.get('/User_id/{user_id}')
-def userdata(user_id: str):
+async def userdata(user_id: str):
     df2 = pd.read_parquet('Dataset/endpoint_2_copia.parquet')
     df_user_id = df2[df2['user_id'] == user_id]
     dinero_gastado= (df_user_id['price'].sum())
@@ -31,7 +31,7 @@ def userdata(user_id: str):
     return {'usuario':user_id, 'Dinero gastado':dinero_gastado, 'porcentaje de recomendación':porcentaje_recomen, 'Cantidad de items': cant_items}
 
 @app.get('/Genero/{genero}')
-def UserForGenre(genero: str):
+async def UserForGenre(genero: str):
     df3 = pd.read_parquet('Dataset/endpoint_3_copia.parquet')
     data = df3[df3['genres'] == genero.capitalize()]
     usuario_horas = data.groupby('user_id')['playtime_forever'].sum().idxmax(0)
@@ -42,7 +42,7 @@ def UserForGenre(genero: str):
     return resultado
 
 @app.get('/Año')
-def best_developer_year(año: int ): 
+async def best_developer_year(año: int ): 
     
     df4 = pd.read_parquet('Dataset/endpoint_4_5_copia.parquet')
     df4['release_date'] = df4['release_date'].astype(int)
@@ -55,15 +55,7 @@ def best_developer_year(año: int ):
     
     return resultado_dict   
 
-@app.get('/Desarrolladora/{desarrolladora}')
-def developer_reviews_analysis(desarrolladora: str ):
-    df5 = pd.read_parquet('Dataset/endpoint_4_5.parquet') 
-    data = df5[df5['developer'] == desarrolladora]
-    negativos = data[data['sentiment_analysis'] == 2].count().to_list()
-    positivos = data[data['sentiment_analysis'] == 0].count().to_list()
-    
-    return {desarrolladora:f'[Negative = {negativos[0]}, Positive = {positivos[0]}]'}
-    """
+
     
 @app.get('/Desarrolladora/{desarrolladora}')
 async def developer_reviews_analysis(desarrolladora: str ):
