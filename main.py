@@ -1,7 +1,6 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
 import pandas as pd
-import numpy as np
+
 
 app = FastAPI()
 
@@ -45,7 +44,8 @@ def UserForGenre(genero: str):
 @app.get('/Año')
 def best_developer_year(año: int ): 
     
-    df4 = pd.read_parquet('Dataset/endpoint_4.parquet')
+    df4 = pd.read_parquet('Dataset/endpoint_4_5.parquet')
+    df4['release_date'] = df4['release_date'].astype(int)
     data = df4[df4['release_date']== año]
     data = data[(data['recommend'] == True) & (data['sentiment_analysis'] == 2)].sort_values(by= 'developer',ascending= False)
     df_dvelopers = data.groupby('developer')['sentiment_analysis'].sum().index[:3]
@@ -57,7 +57,7 @@ def best_developer_year(año: int ):
 
 @app.get('/Desarrolladora/{desarrolladora}')
 def developer_reviews_analysis(desarrolladora: str ):
-    df5 = pd.read_parquet('Dataset/endpoint_5.parquet') 
+    df5 = pd.read_parquet('Dataset/endpoint_4_5.parquet') 
     data = df5[df5['developer'] == desarrolladora]
     negativos = data[data['sentiment_analysis'] == 2].count().to_list()
     positivos = data[data['sentiment_analysis'] == 0].count().to_list()
