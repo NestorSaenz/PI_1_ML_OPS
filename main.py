@@ -23,7 +23,7 @@ async def desarrollador(desarrollador:str):
 @app.get('/User_id/{user_id}')
 async def userdata(user_id: str):
     df2 = pd.read_parquet('Dataset/endpoint_2_copia.parquet')
-    df_user_id = df2[df2['user_id'] == user_id]
+    df_user_id = df2[df2['user_id'] == user_id.capitalize()]
     dinero_gastado= (df_user_id['price'].sum())
     porcentaje_recomen = len(df_user_id['recommend']=='True')/len(df_user_id)*100
     cant_items = df_user_id.iloc[0,3].astype(float)
@@ -43,7 +43,6 @@ async def UserForGenre(genero: str):
 
 @app.get('/Año')
 async def best_developer_year(año: int ): 
-    
     df4 = pd.read_parquet('Dataset/endpoint_4_5_copia.parquet')
     df4['release_date'] = df4['release_date'].astype(int)
     data = df4[df4['release_date']== año]
