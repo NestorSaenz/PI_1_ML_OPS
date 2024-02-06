@@ -22,7 +22,7 @@ def desarrollador(desarrollador:str):
 
 @app.get('/User_id/{user_id}')
 def userdata(user_id: str):
-    df2 = pd.read_parquet('Dataset/endpoint_2.parquet')
+    df2 = pd.read_parquet('Dataset/endpoint_2_copia.parquet')
     df_user_id = df2[df2['user_id'] == user_id]
     dinero_gastado= (df_user_id['price'].sum())
     porcentaje_recomen = len(df_user_id['recommend']=='True')/len(df_user_id)*100
@@ -32,7 +32,7 @@ def userdata(user_id: str):
 
 @app.get('/Genero/{genero}')
 def UserForGenre(genero: str):
-    df3 = pd.read_parquet('Dataset/endpoint_3.parquet')
+    df3 = pd.read_parquet('Dataset/endpoint_3_copia.parquet')
     data = df3[df3['genres'] == genero.capitalize()]
     usuario_horas = data.groupby('user_id')['playtime_forever'].sum().idxmax(0)
     lista_horas = data.groupby('release_date')['playtime_forever'].sum().reset_index() 
@@ -44,7 +44,7 @@ def UserForGenre(genero: str):
 @app.get('/Año')
 def best_developer_year(año: int ): 
     
-    df4 = pd.read_parquet('Dataset/endpoint_4_5.parquet')
+    df4 = pd.read_parquet('Dataset/endpoint_4_5_copia.parquet')
     df4['release_date'] = df4['release_date'].astype(int)
     data = df4[df4['release_date']== año]
     data = data[(data['recommend'] == True) & (data['sentiment_analysis'] == 2)].sort_values(by= 'developer',ascending= False)
