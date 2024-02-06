@@ -53,7 +53,7 @@ def best_developer_year(año: int ):
     resultado_dict = {'Primer puesto': lista[0], 'Segundo puesto': lista[1], 'Tercer puesto': lista[2]}
    
     
-    return resultado_dict   """
+    return resultado_dict   
 
 @app.get('/Desarrolladora/{desarrolladora}')
 def developer_reviews_analysis(desarrolladora: str ):
@@ -63,9 +63,15 @@ def developer_reviews_analysis(desarrolladora: str ):
     positivos = data[data['sentiment_analysis'] == 0].count().to_list()
     
     return {desarrolladora:f'[Negative = {negativos[0]}, Positive = {positivos[0]}]'}
+    """
     
-
-
+@app.get('/Desarrolladora/{desarrolladora}')
+def developer_reviews_analysis(desarrolladora: str ):
+    df = pd.read_parquet('Dataset/endpoint_4_5.parquet')
+    df_desarrolladora = df[df['developer'] == desarrolladora]
+    positivos = (df_desarrolladora['sentiment_analysis'] == 2).count()
+    negativos = (df_desarrolladora['sentiment_analysis'] == 0).count()
+    return {desarrolladora:f'[Negative = {negativos}, Positive = {positivos}]'}
 
      
     
