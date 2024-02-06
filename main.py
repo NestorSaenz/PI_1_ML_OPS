@@ -4,7 +4,7 @@ import pandas as pd
 
 app = FastAPI()
 
-
+""""
 @app.get('/')
 def my_function():
     return 'PROYECTO INDIVIDUAL Nº1 Machine Learning Operations (MLOps)'
@@ -53,7 +53,7 @@ def best_developer_year(año: int ):
     resultado_dict = {'Primer puesto': lista[0], 'Segundo puesto': lista[1], 'Tercer puesto': lista[2]}
    
     
-    return resultado_dict   
+    return resultado_dict   """
 
 @app.get('/Desarrolladora/{desarrolladora}')
 def developer_reviews_analysis(desarrolladora: str ):
