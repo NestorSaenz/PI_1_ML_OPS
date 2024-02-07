@@ -9,7 +9,7 @@
 
 Este proyecto simula el rol de un MLOps Engineer, es decir, la combinación de un Data Engineer y Data Scientist, para la plataforma multinacional de videojuegos Steam. Para su desarrollo, se entregan unos datos y se solicita un Producto Mínimo Viable que muestre una API deployada en un servicio en la nube y la aplicación de un modelo de Machine Learning para hacer recomendaciones de juegos.
 
-# Introducción
+## Introducción
 
 Para este proyecto se nos proporciona un conjunto de tres archivos en formato JSON: de steam (Steam es una plataforma de distribución digital de videojuegos desarrollada por Valve Corporation) para poder trabajar en ellos y crear un Producto Minimo Viable (MVP), que contiene una la implementaciónde una API  y con un modelo de Machine Learning. los datos provienen de los archivos siguientes: 
 
@@ -38,6 +38,7 @@ En esta etapa se realizo el analisis de sentimientos a los reviews de los usuari
 
 Todos los detalles del desarrollo se pueden ver en la Jupyter Notebook [Analisis de sentimientos](./ETL/users_review.ipynb)
 
-
+## EDA
+Se lleva a cabo el analisis exploratorio de los datos, identificando patrones y tendencias de los juegos y generos mas recomendados por los uduarios, a parte de identificar outliers, el codigo utilizado se puede visualizar en [EDA](https://github.com/NestorSaenz/PI_1_ML_OPS/tree/main/EDA)
 
  
