@@ -1,9 +1,11 @@
-from fastapi import FastAPI
 import pandas as pd
-
-
+from fastapi import FastAPI
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import linear_kernel
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import StandardScaler
+ 
 app = FastAPI()
-
 
 @app.get('/')
 async def my_function():
@@ -62,7 +64,49 @@ async def developer_reviews_analysis(desarrolladora: str ):
     negativos = (df_desarrolladora['sentiment_analysis'] == 0).count()
     return {desarrolladora:f'[Negative = {negativos}, Positive = {positivos}]'}
 
-     
+@app.get('/Recomendacion_juego/{id_juego}')  
+async def recomendacion_juego(id_juego:int):
+    df = pd.read_parquet('Dataset/recomendacion.parquet')
+    # Verifica si existe el id.
+    if id_juego not in df['item_id'].values:
+        return "ID de juego no encontrado"
+    # Vectoriza (convierte texto en valores numéricos).
+    tfidf_vectorizer = TfidfVectorizer(stop_words='english')
+    # Convierte 'genres' a cadena y lo codifica con LabelEncoder.
+    label_encoder = LabelEncoder()
+    df['genres_str'] = label_encoder.fit_transform(df['genres'].astype(str))
+    # Combina 'genres_str', 'title', 'sentiment_analysis', y 'playtime_2weeks' en una nueva columna.
+    # Esto es para generar vectores y comparar cosenos.
+    df['combined_features'] = (
+        df['genres_str'].astype(str) + ' ' +
+        df['title'] + ' ' +
+        df['sentiment_analysis'].astype(str) + ' ' +
+        df['playtime_2weeks'].astype(str)
+    )
+    # Aplica el vectorizador a la nueva columna.
+    tfidf_matrix = tfidf_vectorizer.fit_transform(df['combined_features'])
+    # Escala 'sentiment_analysis' y 'playtime_2weeks'.
+    scaler = StandardScaler()
+    scaled_features = scaler.fit_transform(df[['sentiment_analysis', 'playtime_2weeks']])
+    # Agrega las características escaladas.
+    tfidf_matrix = pd.concat([pd.DataFrame(tfidf_matrix.toarray()), pd.DataFrame(scaled_features)], axis=1)
+    # Calcula la similitud de coseno entre los juegos.
+    cosine_similarities = linear_kernel(tfidf_matrix, tfidf_matrix)
+    # Obtiene el índice del juego en el DataFrame.
+    idx = df[df['item_id'] == id_juego].index[0]
+    # Obtiene las similitudes de coseno para el juego especificado.
+    cosine_scores = list(enumerate(cosine_similarities[idx]))
+    # Ordena los juegos por similitud de coseno. Cuanto más cercana a 1, más "parecido" es.
+    cosine_scores = sorted(cosine_scores, key=lambda x: x[1], reverse=True)
+    # Obtiene los índices de los 5 juegos recomendados (excluyendo el juego actual) por similitud.
+    recommended_indices = [i[0] for i in cosine_scores[1:6]]  
+    # Obtiene los títulos de los juegos recomendados.
+    recommended_titles = df['title'].iloc[recommended_indices].tolist()
+    return recommended_titles
+
+    
+
+
     
     
     
