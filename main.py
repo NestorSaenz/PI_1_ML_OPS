@@ -53,8 +53,6 @@ async def best_developer_year(año:int ):
     lista = df_dvelopers.to_list()
     resultado_dict = {'Primer puesto': lista[0], 'Segundo puesto': lista[0], 'Tercer puesto': lista[0]}
     return resultado_dict    
-
-
     
 @app.get('/Desarrolladora/{desarrolladora}')
 async def developer_reviews_analysis(desarrolladora: str ):
