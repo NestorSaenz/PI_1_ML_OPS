@@ -27,10 +27,16 @@ Se realizó la extracción, transformación y carga (ETL) de los tres conjuntos 
 En esta fase del proyecto se realiza la extracción de datos, a fin de familiarizarse con ellos y comenzar con la etapa de limpieza de datos que nos permita el correcto entedimiento. Terminada la limpieza se generará el conjunto de datos para la siguiente fase, estos se guardaron en formato parquet. 
 
 
-Los detalles del ETL se puede ver en [ETL](https://github.com/NestorSaenz/PI_1_ML_OPS/tree/main/ETL)
+Los detalles del ETL para cada Dataset se puede ver en [ETL](https://github.com/NestorSaenz/PI_1_ML_OPS/tree/main/ETL)
   
+## Feature engineering
+En esta etapa se realizo el analisis de sentimientos a los reviews de los usuarios. Para ello se creó una nueva columna llamada 'sentiment_analysis' que reemplaza a la columna que contiene los reviews donde clasifica los sentimientos de los comentarios con la siguiente escala:
 
+* 0 si es malo,
+* 1 si es neutral o esta sin review
+* 2 si es positivo.
 
+Todos los detalles del desarrollo se pueden ver en la Jupyter Notebook [ETL](https://github.com/NestorSaenz/PI_1_ML_OPS/tree/main/users_review.ipynb)
 
 
 
