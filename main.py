@@ -12,7 +12,7 @@ async def my_function():
 @app.get("/developer/{desarrollador}")
 async def desarrollador(desarrollador:str):
     df = pd.read_parquet('Dataset/steam_games.parquet')
-    df1 = df.sample(30000, random_state=42)
+    df1 = df.sample(20000, random_state=42)
     df_desarrollador = df1[df1['developer'] == desarrollador.capitalize()]
     df_resultado = pd.DataFrame()
     df_resultado['Años'] = df_desarrollador['release_date'].unique()
@@ -24,7 +24,7 @@ async def desarrollador(desarrollador:str):
 @app.get('/User_id/{user_id}')
 async def userdata(user_id: str):
     df = pd.read_parquet('Dataset/endpoint_2.parquet')
-    df2 = df.sample(30000, random_state=42)
+    df2 = df.sample(20000, random_state=42)
     df_user_id = df2[df2['user_id'] == user_id]
     dinero_gastado= (df_user_id['price'].sum())
     porcentaje_recomen = len(df_user_id['recommend']=='True')/len(df_user_id)*100
@@ -35,7 +35,7 @@ async def userdata(user_id: str):
 @app.get('/Genero/{genero}')
 async def UserForGenre(genero: str):
     df = pd.read_parquet('Dataset/endpoint_3.parquet')
-    df3 = df.sample(30000, random_state=42)
+    df3 = df.sample(20000, random_state=42)
     data = df3[df3['genres'] == genero.capitalize()]
     usuario_horas = data.groupby('user_id')['playtime_forever'].sum().idxmax(0)
     lista_horas = data.groupby('release_date')['playtime_forever'].sum().reset_index() 
@@ -47,7 +47,7 @@ async def UserForGenre(genero: str):
 @app.get('/Año')
 async def best_developer_year(año:int ): 
     df = pd.read_parquet('Dataset/endpoint_4_5.parquet')
-    df4 = df.sample(30000, random_state=42)
+    df4 = df.sample(20000, random_state=42)
     df4['release_date'] = df4['release_date'].astype(int)
     data = df4[df4['release_date']== año]
     data = data[(data['recommend'] == True) & (data['sentiment_analysis'] == 2)].sort_values(by= 'developer',ascending= False)
@@ -63,7 +63,7 @@ async def best_developer_year(año:int ):
 @app.get('/Desarrolladora/{desarrolladora}')
 async def developer_reviews_analysis(desarrolladora: str ):
     df = pd.read_parquet('Dataset/endpoint_4_5.parquet')
-    df = df.sample(30000, random_state=42)
+    df = df.sample(20000, random_state=42)
     df_desarrolladora = df[df['developer'] == desarrolladora]
     positivos = (df_desarrolladora['sentiment_analysis'] == 2).count()
     negativos = (df_desarrolladora['sentiment_analysis'] == 0).count()
