@@ -41,4 +41,8 @@ Todos los detalles del desarrollo se pueden ver en la Jupyter Notebook [Analisis
 ## EDA
 Se lleva a cabo el analisis exploratorio de los datos, identificando patrones y tendencias de los juegos y generos mas recomendados por los uduarios, a parte de identificar outliers, el codigo utilizado se puede visualizar en [EDA](https://github.com/NestorSaenz/PI_1_ML_OPS/tree/main/EDA)
 
+## API
+Para su desarrollo se utilizó FastAPI, dicho Framework permite que la API pueda ser consumida desde la WEB, la misma consta de 6 endpoints
+los detalles de codigo se encuentran en [API](https://github.com/NestorSaenz/PI_1_ML_OPS/tree/main/main.py)
+
  
