@@ -36,7 +36,7 @@ En esta etapa se realizo el analisis de sentimientos a los reviews de los usuari
 * 1 si es neutral o esta sin review
 * 2 si es positivo.
 
-Todos los detalles del desarrollo se pueden ver en la Jupyter Notebook [ETL](https://github.com/NestorSaenz/PI_1_ML_OPS/tree/main/users_review.ipynb)
+Todos los detalles del desarrollo se pueden ver en la Jupyter Notebook [ETL](./ETL/users_review.ipynb.md)
 
 
 
