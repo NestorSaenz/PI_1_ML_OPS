@@ -43,14 +43,14 @@ async def UserForGenre(genero: str):
 
 @app.get('/Año')
 async def best_developer_year(año:int ): 
-    df4 = pd.read_parquet('E:/Proyecto_2/PI_ML_OPS/Dataset/endpoint_4_5.parquet')
+    df4 = pd.read_parquet('Dataset/endpoint_4_5.parquet')
     df4['release_date'] = df4['release_date'].astype(int)
-    data = df4[df4['release_date']== 1997]
+    data = df4[df4['release_date']== año]
     data = data[(data['recommend'] == True) & (data['sentiment_analysis'] == 2)].sort_values(by= 'developer',ascending= False)
     df_dvelopers = data.groupby('developer')['sentiment_analysis'].sum().index[:3]
     lista = df_dvelopers.to_list()
     resultado_dict = {'Primer puesto': lista[0], 'Segundo puesto': lista[0], 'Tercer puesto': lista[0]}
-    return resultado_dict   
+    return resultado_dict    
 
 
     
