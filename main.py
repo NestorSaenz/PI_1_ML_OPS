@@ -1,3 +1,7 @@
+"""
+En este archivo se encuentras seis endpoints, el ultimo da respuesta al sistema de recomendacion de
+videojuegos tomando como referencia el tipo de juego.
+"""
 import pandas as pd
 from fastapi import FastAPI
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -11,20 +15,37 @@ app = FastAPI()
 async def my_function():
     return 'PROYECTO INDIVIDUAL Nº1 Machine Learning Operations (MLOps)'
 
+# ENDPOINTS
+
+"""
+1. Cantidad de items y porcentaje de contenido Free por año según empresa desarrolladora.
+"""
+
 @app.get("/developer/{desarrollador}")
 async def desarrollador(desarrollador:str):
-    df1 = pd.read_parquet('Dataset/steam_games.parquet')
+    
+    df1 = pd.read_parquet('./Dataset/steam_games.parquet')
     df_desarrollador = df1[df1['developer'] == desarrollador.capitalize()]
-    df_resultado = pd.DataFrame()
-    df_resultado['Años'] = df_desarrollador['release_date'].unique()
-    df_resultado['Cantidad de items'] = df_desarrollador.groupby('release_date').size().values
-    df_resultado['Porcentaje free'] = (len(df_desarrollador[df_desarrollador['price'] == 0]) / df_resultado['Cantidad de items'].sum()) * 100
-    resultado_dict = df_resultado.to_dict(orient='records')
-    return resultado_dict
+    if (df_desarrollador['price'] == 0).any():
+        df_resultado = pd.DataFrame()
+        df_resultado['Años'] = df_desarrollador['release_date'].unique()
+        df_resultado = df_desarrollador.groupby('release_date')['price'].value_counts().reset_index()
+        df_resultado = df_resultado[df_resultado['price'] == 0]
+        df_resultado['count_total'] = df_desarrollador.groupby('release_date').size().values
+        df_resultado['porcentaje_free'] = round(df_resultado['count']/df_resultado['count_total']*100,2)
+        resultado_dict = df_resultado[['release_date', 'count', 'count_total', 'porcentaje_free']].to_dict(orient='records')
+        return resultado_dict
+    else:        
+        return 'No tiene juegos free'
+
+"""
+2. Debe devolver cantidad de dinero gastado por el usuario, 
+el porcentaje de recomendación en base a reviews.recommend y cantidad de items.       
+"""
 
 @app.get('/User_id/{user_id}')
 async def userdata(user_id: str):
-    df2 = pd.read_parquet('Dataset/endpoint_2.parquet')
+    df2 = pd.read_parquet('./Dataset/endpoint_2.parquet')
     df_user_id = df2[df2['user_id'] == user_id]
     dinero_gastado= (df_user_id['price'].sum())
     porcentaje_recomen = len(df_user_id['recommend']=='True')/len(df_user_id)*100
@@ -32,9 +53,14 @@ async def userdata(user_id: str):
     
     return {'usuario':user_id, 'Dinero gastado':dinero_gastado, 'porcentaje de recomendación':porcentaje_recomen, 'Cantidad de items': cant_items}
 
+"""
+3. Debe devolver el usuario que acumula más horas jugadas 
+para el género dado y una lista de la acumulación de horas jugadas por año de lanzamiento.
+"""
+
 @app.get('/Genero/{genero}')
 async def UserForGenre(genero: str):
-    df3 = pd.read_parquet('Dataset/endpoint_3.parquet')
+    df3 = pd.read_parquet('./Dataset/endpoint_3.parquet')
     data = df3[df3['genres'] == genero.capitalize()]
     usuario_horas = data.groupby('user_id')['playtime_forever'].sum().idxmax(0)
     lista_horas = data.groupby('release_date')['playtime_forever'].sum().reset_index() 
@@ -43,28 +69,43 @@ async def UserForGenre(genero: str):
   }
     return resultado
 
+"""
+4. Devuelve el top 3 de desarrolladores con juegos MÁS recomendados por usuarios para el año dado. 
+(reviews.recommend = True y comentarios positivos)
+"""
+
 @app.get('/Año')
 async def best_developer_year(año:int ): 
-    df4 = pd.read_parquet('Dataset/endpoint_4_5.parquet')
+    df4 = pd.read_parquet('./Dataset/endpoint_4_5.parquet')
     df4['release_date'] = df4['release_date'].astype(int)
     data = df4[df4['release_date']== año]
     data = data[(data['recommend'] == True) & (data['sentiment_analysis'] == 2)].sort_values(by= 'developer',ascending= False)
     df_dvelopers = data.groupby('developer')['sentiment_analysis'].sum().index[:3]
     lista = df_dvelopers.to_list()
-    resultado_dict = {'Primer puesto': lista[0], 'Segundo puesto': lista[0], 'Tercer puesto': lista[0]}
+    resultado_dict = {'Primer puesto': lista[0], 'Segundo puesto': lista[1], 'Tercer puesto': lista[2]}
     return resultado_dict    
-    
+
+"""
+5. Según el desarrollador, se devuelve un diccionario con el nombre del desarrollador como llave y una lista con la cantidad total 
+de registros de reseñas de usuarios que se encuentren categorizados con un análisis de sentimiento como valor positivo o negativo
+"""   
+
 @app.get('/Desarrolladora/{desarrolladora}')
 async def developer_reviews_analysis(desarrolladora: str ):
-    df = pd.read_parquet('Dataset/endpoint_4_5.parquet')
-    df_desarrolladora = df[df['developer'] == desarrolladora]
+    df = pd.read_parquet('./Dataset/endpoint_4_5.parquet')
+    df_desarrolladora = df[df['developer'] == desarrolladora.capitalize()]
     positivos = (df_desarrolladora['sentiment_analysis'] == 2).count()
     negativos = (df_desarrolladora['sentiment_analysis'] == 0).count()
     return {desarrolladora:f'[Negative = {negativos}, Positive = {positivos}]'}
 
+"""
+6. Ingresando el id de producto, deberíamos recibir una lista 
+con 5 juegos recomendados similares al ingresado.
+"""
+
 @app.get('/Recomendacion_juego/{id_juego}')  
 async def recomendacion_juego(id_juego:int):
-    df = pd.read_parquet('Dataset/recomendacion.parquet')
+    df = pd.read_parquet('./Dataset/recomendacion.parquet')
     # Verifica si existe el id.
     if id_juego not in df['item_id'].values:
         return "ID de juego no encontrado"
