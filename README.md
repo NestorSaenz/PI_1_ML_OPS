@@ -8,7 +8,7 @@
 
  # SISTEMA DE RECOMENDACION DE VIDEOJUEGOS
 
- <div align="center" class="text-center" style="margin-bottom: 20px;">
+ <div align="center" class="text-center" style="margin-bottom: 60px;">
   <img src="imagenes/machine_learning.png" width="200" height="200" style="margin-right: 60px;">
   <img src="imagenes/videojuegos-machine.jpg" width="200" height="200">
 </div>
