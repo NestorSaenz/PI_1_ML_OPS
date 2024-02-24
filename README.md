@@ -7,6 +7,11 @@
 ![Docker](https://img.shields.io/badge/-Docker-333333?style=flat&logo=docker)
 
  # SISTEMA DE RECOMENDACION DE VIDEOJUEGOS
+ <div align="left">
+
+![Imagen](imagenes/atencion..jpg)
+## Conclusión
+</div>
 
 Este proyecto simula el rol de un MLOps Engineer, es decir, la combinación de un Data Engineer y Data Scientist, para la plataforma multinacional de videojuegos Steam. Para su desarrollo, se entregan unos datos y se solicita un Producto Mínimo Viable que muestre una API deployada en un servicio en la nube y la aplicación de un modelo de Machine Learning para hacer recomendaciones de juegos.
 
