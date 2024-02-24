@@ -8,11 +8,15 @@
 
  # SISTEMA DE RECOMENDACION DE VIDEOJUEGOS
  <div align="left">
+  
 ![Imagen](imagenes/machine_learning.png)
+
 </div>
 
  <div align="right">
+  
 ![Imagen](videojuegos-machine.jpg)
+
 </div>
 
 
