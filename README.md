@@ -15,7 +15,7 @@
 
  <div align="right">
   
-![Imagen](videojuegos-machine.jpg)
+![Imagen](imagenes/videojuegos-machine.jpg)
 
 </div>
 
