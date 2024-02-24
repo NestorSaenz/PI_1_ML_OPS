@@ -26,17 +26,18 @@ async def desarrollador(desarrollador:str):
     
     df1 = pd.read_parquet('./Dataset/steam_games.parquet')
     df_desarrollador = df1[df1['developer'] == desarrollador.capitalize()]
-    if (df_desarrollador['price'] == 0).any():
-        df_resultado = pd.DataFrame()
-        df_resultado['Años'] = df_desarrollador['release_date'].unique()
-        df_resultado = df_desarrollador.groupby('release_date')['price'].value_counts().reset_index()
-        df_resultado = df_resultado[df_resultado['price'] == 0]
-        df_resultado['count_total'] = df_desarrollador.groupby('release_date').size().values
-        df_resultado['porcentaje_free'] = round(df_resultado['count']/df_resultado['count_total']*100,2)
-        resultado_dict = df_resultado[['release_date', 'count', 'count_total', 'porcentaje_free']].to_dict(orient='records')
-        return resultado_dict
-    else:        
-        return 'No tiene juegos free'
+    for index, row in df_desarrollador.iterrows():
+        if  row['price'] == 0:
+            df_resultado = pd.DataFrame()
+            df_resultado['Años'] = df_desarrollador['release_date'].unique()
+            df_resultado = df_desarrollador.groupby('release_date')['price'].value_counts().reset_index()
+            df_resultado = df_resultado[df_resultado['price'] == 0]
+            df_resultado['count_total'] = df_desarrollador.groupby('release_date').size().values
+            df_resultado['porcentaje_free'] = round(df_resultado['count']/df_resultado['count_total']*100,2)
+            resultado_dict = df_resultado[['release_date', 'count', 'count_total', 'porcentaje_free']].to_dict(orient='records')
+            return resultado_dict
+        else:        
+            return 'No tiene juegos free'
 
 """
 2. Debe devolver cantidad de dinero gastado por el usuario, 
@@ -94,8 +95,8 @@ de registros de reseñas de usuarios que se encuentren categorizados con un aná
 async def developer_reviews_analysis(desarrolladora: str ):
     df = pd.read_parquet('./Dataset/endpoint_4_5.parquet')
     df_desarrolladora = df[df['developer'] == desarrolladora.capitalize()]
-    positivos = (df_desarrolladora['sentiment_analysis'] == 2).count()
-    negativos = (df_desarrolladora['sentiment_analysis'] == 0).count()
+    positivos = (df_desarrolladora['sentiment_analysis'] == 2).sum()
+    negativos = (df_desarrolladora['sentiment_analysis'] == 0).sum()
     return {desarrolladora:f'[Negative = {negativos}, Positive = {positivos}]'}
 
 """
