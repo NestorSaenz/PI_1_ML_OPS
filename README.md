@@ -7,8 +7,8 @@
 ![Docker](https://img.shields.io/badge/-Docker-333333?style=flat&logo=docker)
 
  # SISTEMA DE RECOMENDACION DE VIDEOJUEGOS
-<div class="text-center" style="margin-bottom: 20px;">
-  <img src="imagenes/machine_learning.png" width="200" height="200" style="margin-right: 20px;">
+<div class="text-center" style="margin-bottom: 40px;">
+  <img src="imagenes/machine_learning.png" width="200" height="200" style="margin-right: 50px;">
   <img src="imagenes/videojuegos-machine.jpg" width="200" height="200">
 </div>
 
