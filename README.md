@@ -9,7 +9,7 @@
  # SISTEMA DE RECOMENDACION DE VIDEOJUEGOS
  <div align="left">
 
-![Imagen](imagenes/atencion..jpg)
+![Imagen](imagenes/machine_learning.png)
 ## Conclusión
 </div>
 
