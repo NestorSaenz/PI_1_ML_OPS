@@ -12,7 +12,7 @@
 </div>
 
  <div align="right">
-![Imagen](imagenes/machine_learning.png)
+![Imagen](videojuegos-machine.jpg)
 </div>
 
 
