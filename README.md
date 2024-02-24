@@ -5,7 +5,7 @@
 ![FastAPI](https://img.shields.io/badge/-FastAPI-333333?style=flat&logo=fastapi)
 ![Render](https://img.shields.io/badge/-Render-333333?style=flat&logo=render)
 
- # PI_1_ML_OPS
+ # SISTEMA DE RECOMENDACION DE VIDEOJUEGOS
 
 Este proyecto simula el rol de un MLOps Engineer, es decir, la combinación de un Data Engineer y Data Scientist, para la plataforma multinacional de videojuegos Steam. Para su desarrollo, se entregan unos datos y se solicita un Producto Mínimo Viable que muestre una API deployada en un servicio en la nube y la aplicación de un modelo de Machine Learning para hacer recomendaciones de juegos.
 
